@@ -11,8 +11,5 @@ public class Gate implements ModInitializer {
 
 	@Override
 	public void onInitialize() {
-		EventHandler.registerEvent(new CommandDispatcher());
-
-		//LOGGER.info("Hello Fabric world!");
 	}
 }
