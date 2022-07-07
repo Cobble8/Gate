@@ -7,10 +7,8 @@ import mod.gate.utils.ChatUtils;
 public class CommandDispatcher {
 
     @Event(event = CommandEvent.class)
-    public void onCommand(CommandEvent event) {
-        if (event.getCommandName().equals("gate")) {
-            event.getInfo().cancel();
-            ChatUtils.sendChatMessage("Hello World");
-        }
+    public void onCommand(CommandEvent e) {
+        new MainCommand("gate", "gates", "ga").e(e);
+
     }
 }

@@ -4,7 +4,7 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.text.Text;
 
 public class ChatUtils {
-    private static String PREFIX = "[GATE] ";
+    private static final String PREFIX = "[GATE] ";
 
     public static void sendChatMessage(String string, boolean prefix) {
         if (prefix) string = PREFIX + string;
