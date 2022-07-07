@@ -8,7 +8,7 @@ public class CommandDispatcher {
 
     @Event(event = CommandEvent.class)
     public void onCommand(CommandEvent e) {
-        new MainCommand("gate", "gates", "ga").e(e);
+        new MainCommand("update").e(e);
 
     }
 }
