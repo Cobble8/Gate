@@ -1,12 +1,15 @@
 {
   "schemaVersion": 1,
   "id": "gate",
-  "version": "1.0.0.0",
+  "version": "1.0.0",
 
   "name": "Gate",
   "description": "\"A gate to new beginnings for cobble code standards\"",
   "authors": [
     "Cobble8", "Dalwyn"
+  ],
+  "contributors": [
+    "Ascynx"
   ],
   "contact": {
     "homepage": "https://fabricmc.net/",
