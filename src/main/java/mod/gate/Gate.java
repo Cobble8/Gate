@@ -4,6 +4,7 @@ import com.google.gson.JsonParseException;
 import mod.gate.commands.CommandDispatcher;
 import mod.gate.config.Configuration;
 import mod.gate.events.EventHandler;
+import mod.gate.utils.Reference;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.loader.api.FabricLoader;
 import org.slf4j.Logger;
@@ -22,6 +23,9 @@ public class Gate implements ClientModInitializer {
 
     @Override
     public void onInitializeClient() {
+       LOGGER.info(Reference.NAME+" has been initialized!");
+		   EventHandler.registerEvent(new CommandDispatcher());
+    
         //load config
         try {
             config = config.load(CONFIG_PATH);
@@ -30,8 +34,5 @@ public class Gate implements ClientModInitializer {
         } catch (JsonParseException | IOException e) {
             e.printStackTrace();
         }
-
-        LOGGER.info("Hello Fabric world!");
-        EventHandler.registerEvent(new CommandDispatcher());
     }
 }
