@@ -1,9 +1,10 @@
-package mod.gate.skyblock;
+package mod.gate.utils;
 
 import java.util.Locale;
 
 public enum Skills {
-    //This entire file should probably be pulled from online at some point rather than hard coded (possibly NEU's repo if we get permission)
+    //TODO This entire file should probably be pulled from online at some point rather
+    // than hard coded, or we keep it like this which is also fine
     FARMING(0, 60),
     MINING(1, 60),
     COMBAT(2, 60),
@@ -16,10 +17,10 @@ public enum Skills {
     SOCIAL(9, 25),
     TAMING(10, 50),
     DUNGEONEERING(11, 50);
-    
 
-    private int id;
-    private int max;
+
+    private final int id;
+    private final int max;
 
     Skills(int id, int max) {
         this.id = id;
@@ -47,5 +48,4 @@ public enum Skills {
         }
 
     }
-
 }

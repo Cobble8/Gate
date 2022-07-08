@@ -7,9 +7,6 @@
     "ClientChatReceiveMixin",
     "InGameHudMixin"
   ],
-  "client": [
-    "ClientPlayerEntityMixin"
-  ],
   "injectors": {
     "defaultRequire": 1
   }
