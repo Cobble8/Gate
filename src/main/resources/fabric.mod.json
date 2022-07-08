@@ -22,9 +22,6 @@
   "environment": "client",
   "entrypoints": {
     "client": [
-      "mod.gate.GateClient"
-    ],
-    "main": [
       "mod.gate.Gate"
     ]
   },

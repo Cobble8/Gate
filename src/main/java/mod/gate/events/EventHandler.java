@@ -1,6 +1,5 @@
 package mod.gate.events;
 
-import mod.gate.GateClient;
 import org.apache.commons.lang3.reflect.MethodUtils;
 
 import java.lang.reflect.Method;
