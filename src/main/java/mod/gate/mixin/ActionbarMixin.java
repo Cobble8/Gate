@@ -11,14 +11,14 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(InGameHud.class)
-public class InGameHudMixin {
+public class ActionbarMixin {
 
     private static String cachedContent;
 
 
     @Inject(at = @At("HEAD"), method = "setOverlayMessage")
     private void setOverlayMessageMixin(Text message, boolean tinted, CallbackInfo ci) {
-        if (message.asString() != cachedContent) {
+        if (!message.asString().equals(cachedContent)) {
             //only run if it's different than the current stored cache
             cachedContent = message.asString();
 

@@ -24,15 +24,8 @@ public class Gate implements ClientModInitializer {
     @Override
     public void onInitializeClient() {
        LOGGER.info(Reference.NAME+" has been initialized!");
-
-       //load config
-        initConfig();
-    }
-
-    public void initConfig() {
-
         EventHandler.registerEvent(new NPCDialogue());
-    
+
         //load config
         try {
             config = config.load(GLOBAL_CONFIG_PATH);
