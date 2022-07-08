@@ -8,6 +8,8 @@ import mod.gate.utils.ChatUtils;
 import mod.gate.utils.Reference;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.util.Identifier;
+import net.minecraft.client.gui.screen.multiplayer.SocialInteractionsScreen;
+import net.minecraft.server.dedicated.gui.PlayerListGui;
 
 import java.io.BufferedReader;
 import java.io.InputStream;
@@ -26,10 +28,8 @@ public class ChatReceiveEvent {
             manageNpcDialogue(msg);
         }
 
-
         return false;
     }
-
     public static void manageNpcDialogue(String msg) {
         System.out.println("'"+msg+"'");
         try {
@@ -59,5 +59,4 @@ public class ChatReceiveEvent {
         } catch(Exception e) {e.printStackTrace();}
 
     }
-
 }
