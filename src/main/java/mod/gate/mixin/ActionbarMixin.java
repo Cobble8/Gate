@@ -27,9 +27,5 @@ public class ActionbarMixin {
             EventHandler.run(new ActionbarReceiveEvent(message, tinted, 60, ci));
         }
     }
-
-    public String getCachedContent() {
-        return cachedContent;
-    }
 }
 

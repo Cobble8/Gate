@@ -13,8 +13,6 @@ import org.slf4j.LoggerFactory;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
-import mod.gate.utils.FileUtils.*;
-
 public class Gate implements ClientModInitializer {
     public static final Logger LOGGER = LoggerFactory.getLogger("Gate");
     public static final String GLOBAL_CONFIG_PATH = "gate-config.json";
