@@ -7,6 +7,9 @@ import com.google.gson.JsonParser;
 import mod.gate.utils.ChatUtils;
 import mod.gate.utils.Reference;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.text.HoverEvent;
+import net.minecraft.text.Style;
+import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import net.minecraft.client.gui.screen.multiplayer.SocialInteractionsScreen;
 import net.minecraft.server.dedicated.gui.PlayerListGui;
@@ -14,6 +17,7 @@ import net.minecraft.server.dedicated.gui.PlayerListGui;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.List;
 
 public class ChatReceiveEvent {
     public static Identifier dialogue = new Identifier(Reference.MODID, "data/npc_dialogue.json");
@@ -23,10 +27,7 @@ public class ChatReceiveEvent {
     public static boolean onChatReceived(String message) {
         String msg = ChatUtils.strip(message);
 
-        if(msg.startsWith("[NPC] ")) {
-
-            manageNpcDialogue(msg);
-        }
+        if(msg.startsWith("[NPC] ")) { manageNpcDialogue(msg); }
 
         return false;
     }
@@ -43,7 +44,6 @@ public class ChatReceiveEvent {
                 l = reader.readLine();
             }
             JsonObject obj = JsonParser.parseString(data.toString()).getAsJsonObject();
-            System.out.println("'"+obj.toString()+"'");
             JsonObject dial = obj.get(msg).getAsJsonObject();
             long delay = dial.get("delay").getAsLong();
             JsonArray lines = dial.get("dialogue").getAsJsonArray();
@@ -51,8 +51,12 @@ public class ChatReceiveEvent {
                 for(JsonElement line : lines) {
                     try {Thread.sleep(delay);} catch(Exception ignored) {}
                     assert MinecraftClient.getInstance().player != null;
-                    String out = "§e["+Reference.MODID.toUpperCase()+"] "+line.getAsString().replace("{name}", MinecraftClient.getInstance().player.getDisplayName().getString());
-                    ChatUtils.sendChatMessage(out, false);
+                    Text prefix = Text.of("§b[NPC] "+line.getAsString().replace("{name}", MinecraftClient.getInstance().player.getDisplayName().getString()));
+                    Style style = Style.EMPTY.withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, Text.of("§6[GATE]")));
+                    List<Text> whyDoesItReturnAList = prefix.getWithStyle(style);
+                    if(whyDoesItReturnAList.size() >= 1) {
+                        MinecraftClient.getInstance().player.sendMessage(whyDoesItReturnAList.get(0), false);
+                    }
                 }
             }).start();
 

@@ -21,8 +21,6 @@ public class ChatUtils {
 
     /**
      * Strips MC color codes out of a string
-     * @param input Any string
-     * @return String
      */
     public static String strip(String input) {
         return STRIP_COLOR_PATTERN.matcher(input).replaceAll("");

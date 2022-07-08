@@ -4,7 +4,7 @@
       "dialogue":[
          "§6{name} §fI'm not so sure about that...",
          "§6Castle Guard: §fI am guarding the lava.",
-         "§c☠Castle Guard §7tried to swim in lava.",
+         "§c☠ Castle Guard §7tried to swim in lava.",
          "§6{name} §fI was right."
       ]
    },
@@ -15,20 +15,19 @@
          "§6Castle Guard: §fNo really! I swear!",
          "§6{name} §fYou LIAR!",
          "§6Castle Guard: §fNooo! I have a family!",
-         "§c☠Castle Guard §7was killed by §6{name}§7.",
-         "§6{name} §fI was right."
+         "§c☠ Castle Guard §7was killed by §6{name}§7."
       ]
    },
    "[NPC] Castle Guard: I'm guarding nothing.":{
       "delay":1400,
       "dialogue":[
          "§6{name} §fWhy?",
-         "§6Castle Guard: §fI don't know, I'm bored.",
-         "§6Castle Guard: §fMy life feels meaningless without this job.",
-         "§6Castle Guard: §fIt's all I know.",
-         "§6Castle Guard: §fIt's all I do.",
-         "§6Castle Guard: §fI'd go INSANE without this job...",
-         "§6{name}: §fOk... I'll leave you to it..."
+         "§6Castle Guard§f: I don't know, I'm bored.",
+         "§6Castle Guard§f: My life feels meaningless without this job.",
+         "§6Castle Guard§f: It's all I know.",
+         "§6Castle Guard§f: It's all I do.",
+         "§6Castle Guard§f: I'd go INSANE without this job...",
+         "§6{name}§f: Ok... I'll leave you to it..."
       ]
    },
    "[NPC] Castle Guard: I'm guarding the whole kingdom.":{
@@ -37,16 +36,16 @@
          "§6{name} §fAnd we're all SUPER proud of you! Right guys?",
          "§bErymanthus§f: Yep.",
          "§cMinikloon§f: Mhm.",
-         "§5Technoblade§f: I'll never truly die... OH! I mean: Of course.",
+         "§dTechnoblade§f: I'll never truly die... OH! I mean: Of course.",
          "§6Castle Guard: §fAww, thanks guys! (That last one was a bit weird...)"
       ]
    },
    "[NPC] Castle Guard: I'm a guard.":{
       "delay":1400,
       "dialogue":[
-         "§c☠Castle Guard §7was killed by §6twasnt §7.",
+         "§c☠ Castle Guard §7was killed by §6twasnt §7.",
          "§6twasnt§f: NOT ANYMORE!",
-         "§6{name} Well then."
+         "§6{name}§f: Well then."
       ]
    }
 }
