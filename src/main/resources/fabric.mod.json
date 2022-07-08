@@ -1,8 +1,7 @@
 {
   "schemaVersion": 1,
   "id": "gate",
-  "version": "1.0.0",
-
+  "version": "1.0.0.0",
   "name": "Gate",
   "description": "\"A gate to new beginnings for cobble code standards\"",
   "authors": [
@@ -15,23 +14,18 @@
     "homepage": "https://fabricmc.net/",
     "sources": "https://github.com/FabricMC/fabric-example-mod"
   },
-
   "license": "MIT",
   "icon": "assets/gate/icon.png",
 
   "environment": "client",
   "entrypoints": {
     "client": [
-      "mod.gate.GateClient"
-    ],
-    "main": [
       "mod.gate.Gate"
     ]
   },
   "mixins": [
     "gate.mixins.json"
   ],
-
   "depends": {
     "fabricloader": ">=0.14.6",
     "fabric": "*",
