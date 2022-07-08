@@ -34,7 +34,6 @@ public class ChatReceiveEvent {
     public static void manageNpcDialogue(String msg) {
         System.out.println("'"+msg+"'");
         try {
-            //Lol this is literally the exact same code as the forge 1.8.9 equivalent
             InputStream in = MinecraftClient.getInstance().getResourceManager().getResource(dialogue).getInputStream();
             BufferedReader reader = new BufferedReader(new InputStreamReader(in));
             StringBuilder data = new StringBuilder();
