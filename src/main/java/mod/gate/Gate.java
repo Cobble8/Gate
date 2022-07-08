@@ -1,12 +1,11 @@
 package mod.gate;
 
 import com.google.gson.JsonParseException;
-import mod.gate.commands.CommandDispatcher;
 import mod.gate.config.Configuration;
 import mod.gate.events.EventHandler;
+import mod.gate.features.NPCDialogue;
 import mod.gate.utils.Reference;
 import net.fabricmc.api.ClientModInitializer;
-import net.fabricmc.loader.api.FabricLoader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -24,7 +23,8 @@ public class Gate implements ClientModInitializer {
     @Override
     public void onInitializeClient() {
        LOGGER.info(Reference.NAME+" has been initialized!");
-		   EventHandler.registerEvent(new CommandDispatcher());
+
+        EventHandler.registerEvent(new NPCDialogue());
     
         //load config
         try {
