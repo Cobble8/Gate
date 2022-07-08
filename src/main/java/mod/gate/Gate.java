@@ -17,7 +17,7 @@ import static mod.gate.utils.FileUtils.writeJson;
 
 public class Gate implements ClientModInitializer {
     public static final Logger LOGGER = LoggerFactory.getLogger("Gate");
-    public static final String CONFIG_PATH = "gate-config.json";
+    public static final String GLOBAL_CONFIG_PATH = "gate-config.json";
 
     public static Configuration config = new Configuration();
 
@@ -28,9 +28,9 @@ public class Gate implements ClientModInitializer {
     
         //load config
         try {
-            config = config.load(CONFIG_PATH);
+            config = config.load(GLOBAL_CONFIG_PATH);
         } catch (FileNotFoundException e) {
-            writeJson(config, FabricLoader.getInstance().getConfigDir().resolve(CONFIG_PATH).toFile());
+            writeJson(config, Reference.CONFIG_PATH + GLOBAL_CONFIG_PATH);//set global config if doesn't exist
         } catch (JsonParseException | IOException e) {
             e.printStackTrace();
         }

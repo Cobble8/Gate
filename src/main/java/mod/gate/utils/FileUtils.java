@@ -19,14 +19,29 @@ public class FileUtils {
     }
 
     public static void writeJson(Object object, File filePath) {
+        String[] pathArray = filePath.toString().split("\\/");
+        if (pathArray[pathArray.length - 1].matches(".*\\..*"))
+            return;//not leading to a file
+
+        filePath.getParentFile().mkdirs();
+
         try (FileWriter writer = new FileWriter(filePath)) {
             writer.write(new GsonBuilder().setPrettyPrinting().create().toJson(object));
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
+
     public static void writeJson(Object object, String filePath) {
-        try (FileWriter writer = new FileWriter(filePath)) {
+        File file = new File(filePath);
+
+        String[] pathArray = filePath.split("\\/");
+        if (!pathArray[pathArray.length - 1].matches(".*\\..*"))
+            return;//not leading to a file
+
+        file.getParentFile().mkdirs();
+
+        try (FileWriter writer = new FileWriter(file)) {
             writer.write(new GsonBuilder().setPrettyPrinting().create().toJson(object));
         } catch (IOException e) {
             e.printStackTrace();
