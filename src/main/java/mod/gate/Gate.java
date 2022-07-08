@@ -1,10 +1,10 @@
 package mod.gate;
 
 import com.google.gson.JsonParseException;
-import mod.gate.commands.CommandDispatcher;
 import mod.gate.config.Configuration;
 import mod.gate.events.EventHandler;
 import mod.gate.utils.FileUtils;
+import mod.gate.features.NPCDialogue;
 import mod.gate.utils.Reference;
 import net.fabricmc.api.ClientModInitializer;
 import org.slf4j.Logger;
@@ -24,13 +24,16 @@ public class Gate implements ClientModInitializer {
     @Override
     public void onInitializeClient() {
        LOGGER.info(Reference.NAME+" has been initialized!");
-		   EventHandler.registerEvent(new CommandDispatcher());
 
        //load config
         initConfig();
     }
 
     public void initConfig() {
+
+        EventHandler.registerEvent(new NPCDialogue());
+    
+        //load config
         try {
             config = config.load(GLOBAL_CONFIG_PATH);
         } catch (FileNotFoundException e) {
