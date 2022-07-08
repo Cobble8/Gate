@@ -1,6 +1,8 @@
 package mod.gate.mixin;
 
 
+import mod.gate.events.ActionbarReceiveEvent;
+import mod.gate.events.EventHandler;
 import net.minecraft.client.gui.hud.InGameHud;
 import net.minecraft.text.Text;
 import org.spongepowered.asm.mixin.Mixin;
@@ -16,7 +18,14 @@ public class InGameHudMixin {
 
     @Inject(at = @At("HEAD"), method = "setOverlayMessage")
     private void setOverlayMessageMixin(Text message, boolean tinted, CallbackInfo ci) {
-        System.out.println(message.asString());
+        if (message.asString() != cachedContent) {
+            //only run if it's different than the current stored cache
+            cachedContent = message.asString();
+
+
+            //run event with updated data
+            EventHandler.run(new ActionbarReceiveEvent(message, tinted, 60, ci));
+        }
     }
 
     public String getCachedContent() {
