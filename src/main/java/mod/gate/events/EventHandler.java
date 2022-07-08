@@ -1,5 +1,6 @@
 package mod.gate.events;
 
+import mod.gate.Gate;
 import org.apache.commons.lang3.reflect.MethodUtils;
 
 import java.lang.reflect.Method;
@@ -26,7 +27,7 @@ public class EventHandler {
                     MethodUtils.invokeMethod(event.getFeature(), true, event.getEventMethod().getName(), eventClass);
                 } catch (Exception e) {
                     // Nothing currently, should make it log something
-                    if (GateClient.config.isDebugMode) GateClient.LOGGER.error("An Error happened while Gate was emitting event " + event.getEventMethod().getName() + ", please report this to ");
+                    if (Gate.config.isDebugMode) Gate.LOGGER.error("An Error happened while Gate was emitting event " + event.getEventMethod().getName() + ", please report this to the developers");
                 }
             }
         }

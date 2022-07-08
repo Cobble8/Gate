@@ -9,9 +9,6 @@ public class ChatReceiveEvent {
     //return value is whether it should be cancelled. true = do cancel, false = don't cancel
     public static boolean onChatReceived(String msg) {
 
-
-
-
         return false;
     }
 
