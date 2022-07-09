@@ -1,6 +1,6 @@
 package mod.gate.mixin;
 
-import mod.gate.events.ChatReceiveEvent;
+import mod.gate.events.ingamehud.ChatReceiveEvent;
 import mod.gate.events.EventHandler;
 import net.minecraft.client.gui.hud.ChatHudListener;
 import net.minecraft.network.MessageType;

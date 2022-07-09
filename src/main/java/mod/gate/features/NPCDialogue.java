@@ -5,7 +5,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import mod.gate.Gate;
-import mod.gate.events.ChatReceiveEvent;
+import mod.gate.events.ingamehud.ChatReceiveEvent;
 import mod.gate.events.Event;
 import mod.gate.utils.ChatUtils;
 import mod.gate.utils.Reference;

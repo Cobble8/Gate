@@ -1,7 +1,7 @@
 package mod.gate.mixin;
 
 
-import mod.gate.events.ActionbarReceiveEvent;
+import mod.gate.events.ingamehud.ActionbarReceiveEvent;
 import mod.gate.events.EventHandler;
 import net.minecraft.client.gui.hud.InGameHud;
 import net.minecraft.text.Text;
