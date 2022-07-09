@@ -14,14 +14,14 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 
 public class Gate implements ClientModInitializer {
-    public static final Logger LOGGER = LoggerFactory.getLogger("Gate");
+    public static final Logger LOGGER = LoggerFactory.getLogger(Reference.NAME);
     public static final String GLOBAL_CONFIG_PATH = "gate-config.json";
 
     public static Configuration config = new Configuration();
 
     @Override
     public void onInitializeClient() {
-       LOGGER.info(Reference.NAME+" has been initialized!");
+        LOGGER.info(Reference.NAME+" has been initialized!");
         EventHandler.registerEvent(new NPCDialogue());
 
         //load config

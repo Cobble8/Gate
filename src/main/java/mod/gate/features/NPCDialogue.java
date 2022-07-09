@@ -23,6 +23,7 @@ import java.util.List;
 public class NPCDialogue {
         private final String ERROR_PREFIX = "NPCDialogue: ";
         private final Identifier dialogue = new Identifier(Reference.MODID, "data/npc_dialogue.json");
+        private static boolean inConversation = false;
 
         public NPCDialogue() {}
 
@@ -32,34 +33,51 @@ public class NPCDialogue {
 
             if (!msg.startsWith("[NPC] ")) return;
 
+
             JsonArray lines = getDialogue(msg);
             if (lines == null) {
                 Gate.LOGGER.error(ERROR_PREFIX + "Dialogue lines were empty");
                 return;
             }
 
+            //This will basically prevent duplicate conversations from taking place if they spam click the NPC
+            if(inConversation) {
+                event.info.cancel();
+                return;
+            }
+            inConversation = true;
+
+
             Object delay = getDelay(msg);
             if (delay == null ) {
                 Gate.LOGGER.error(ERROR_PREFIX + "Delay was null");
                 return;
             }
+            boolean cancel = cancel(msg);
+            if(cancel) event.info.cancel();
 
             new Thread(() -> {
-                for(JsonElement line : lines) {
-                    try {
-                        Thread.sleep((long) delay);
-                    } catch(Exception ignored) {}
+                for(int i=0;i<lines.size();i++) {
+                    JsonElement line = lines.get(i);
+
+                    //If they cancel the initial message, there shouldn't be delay onto the first dialogue line.
+                    if(!(i == 0 && cancel)) {try { Thread.sleep((long) delay); } catch(Exception ignored) {}}
 
                     assert MinecraftClient.getInstance().player != null;
+                    String message = line.getAsString().replace("{name}", MinecraftClient.getInstance().player.getDisplayName().getString());
 
-                    Text prefix = Text.of("§b[NPC] " + line.getAsString().replace("{name}", MinecraftClient.getInstance().player.getDisplayName().getString()));
+                    //Starting a line with '{!}' will make it so the [NPC] prefix isn't there.
+                    if(message.startsWith("{!}")) message = message.substring(3);
+                    else message = "§b[NPC] "+message;
+
+                    Text prefix = Text.of(message);
                     Style style = Style.EMPTY.withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, Text.of(ChatUtils.PREFIX)));
 
                     List<Text> list = prefix.getWithStyle(style);
 
-                    if(list.size() >= 1)
-                        ChatUtils.sendChatMessage(list.get(0));
+                    if(list.size() >= 1) ChatUtils.sendChatMessage(list.get(0));
                 }
+                inConversation = false;
             }).start();
         }
 
@@ -73,6 +91,13 @@ public class NPCDialogue {
             JsonObject rawDialogue = getRawDialogue(msg);
             if (rawDialogue == null) return null;
             return rawDialogue.get("delay").getAsLong();
+        }
+
+        private boolean cancel(String msg) {
+            JsonObject rawDialogue = getRawDialogue(msg);
+            if (rawDialogue == null) return false;
+            try { return rawDialogue.get("cancel").getAsBoolean(); } catch(Exception e) {return false;}
+            //The try/catch is there so if they don't provide the 'cancel' thing, it won't cancel it.
         }
 
         private JsonObject getRawDialogue(String msg) {
