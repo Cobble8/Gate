@@ -1,8 +1,8 @@
 package mod.gate;
 
 import com.google.gson.JsonParseException;
-import mod.gate.config.Configuration;
-import mod.gate.events.EventHandler;
+import mod.gate.core.config.Configuration;
+import mod.gate.core.events.EventHandler;
 import mod.gate.utils.*;
 import mod.gate.features.NPCDialogue;
 import net.fabricmc.api.ClientModInitializer;

@@ -1,7 +1,7 @@
-package mod.gate.mixin;
+package mod.gate.core.mixin;
 
-import mod.gate.events.EventHandler;
-import mod.gate.events.ingamehud.ScoreboardUpdateEvent;
+import mod.gate.core.events.EventHandler;
+import mod.gate.core.events.ingamehud.ScoreboardUpdateEvent;
 import mod.gate.utils.Scoreboard;
 import net.minecraft.client.network.ClientPlayNetworkHandler;
 import net.minecraft.network.packet.s2c.play.TeamS2CPacket;

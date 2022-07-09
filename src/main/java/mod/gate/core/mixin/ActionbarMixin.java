@@ -1,8 +1,8 @@
-package mod.gate.mixin;
+package mod.gate.core.mixin;
 
 
-import mod.gate.events.ingamehud.ActionbarReceiveEvent;
-import mod.gate.events.EventHandler;
+import mod.gate.core.events.ingamehud.ActionbarReceiveEvent;
+import mod.gate.core.events.EventHandler;
 import net.minecraft.client.gui.hud.InGameHud;
 import net.minecraft.text.Text;
 import org.spongepowered.asm.mixin.Mixin;

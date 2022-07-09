@@ -1,6 +1,6 @@
-package mod.gate.events.ingamehud;
+package mod.gate.core.events.ingamehud;
 
-import mod.gate.events.UpdateEvent;
+import mod.gate.core.events.UpdateEvent;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import java.util.ArrayList;

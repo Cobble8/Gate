@@ -1,8 +1,7 @@
-package mod.gate.config;
+package mod.gate.core.config;
 
 import mod.gate.Gate;
 import mod.gate.utils.Reference;
-import net.fabricmc.loader.api.FabricLoader;
 
 import java.io.IOException;
 

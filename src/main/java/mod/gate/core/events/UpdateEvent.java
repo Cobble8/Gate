@@ -1,4 +1,4 @@
-package mod.gate.events;
+package mod.gate.core.events;
 
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
