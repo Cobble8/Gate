@@ -1,4 +1,4 @@
-package mod.gate.events;
+package mod.gate.core.events;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

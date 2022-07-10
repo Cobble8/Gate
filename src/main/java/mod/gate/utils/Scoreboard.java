@@ -4,6 +4,7 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.scoreboard.ScoreboardObjective;
 import net.minecraft.scoreboard.Team;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Locale;
 
@@ -25,9 +26,14 @@ public class Scoreboard {
     }
     //endregion
 
+    //region Lines
+    private static ArrayList<String> Lines = new ArrayList<>();
+    public static ArrayList<String> getLines() {
+        return Lines;
+    }
 
-    //TODO Add event to run this command
-    private static void loadScoreboard() {
+
+    public static void loadScoreboard() {
         assert MinecraftClient.getInstance().world != null;
 
         Collection<ScoreboardObjective> objectives = MinecraftClient.getInstance().world.getScoreboard().getObjectives();
@@ -43,9 +49,12 @@ public class Scoreboard {
         }
         if (!onSkyblock) return;
         //endregion
+        Lines = new ArrayList<>();//reset lines
 
         for (Team team : teams) {
             String line = team.getPrefix().getString()+team.getSuffix().getString();
+
+            Lines.add(line);
 
             //region CheckSubArea
             if (line.contains("⏣"))

@@ -1,4 +1,4 @@
-package mod.gate.events;
+package mod.gate.core.events;
 
 import net.minecraft.network.MessageType;
 import net.minecraft.text.Text;

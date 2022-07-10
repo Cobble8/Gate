@@ -1,4 +1,4 @@
-package mod.gate.commands;
+package mod.gate.core.commands;
 
 public class CommandRoute {
     public String path;

@@ -1,17 +1,13 @@
 package mod.gate;
 
 import com.google.gson.JsonParseException;
-import com.mojang.blaze3d.systems.RenderSystem;
-import mod.gate.config.Configuration;
-import mod.gate.events.EventHandler;
-import mod.gate.features.GuiTesting;
+import mod.gate.core.config.Configuration;
+import mod.gate.core.events.EventHandler;
 import mod.gate.utils.FileUtils;
-import mod.gate.features.NPCDialogue;
 import mod.gate.utils.Reference;
+import mod.gate.features.GuiTesting;
+import mod.gate.features.NPCDialogue;
 import net.fabricmc.api.ClientModInitializer;
-import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
-import net.fabricmc.fabric.mixin.client.rendering.MixinInGameHud;
-import net.minecraft.client.gui.hud.InGameHud;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

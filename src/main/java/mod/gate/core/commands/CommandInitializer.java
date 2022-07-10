@@ -1,4 +1,4 @@
-package mod.gate.commands;
+package mod.gate.core.commands;
 
 import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.brigadier.context.CommandContext;

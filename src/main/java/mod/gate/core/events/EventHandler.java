@@ -1,4 +1,4 @@
-package mod.gate.events;
+package mod.gate.core.events;
 
 import mod.gate.Gate;
 import org.apache.commons.lang3.reflect.MethodUtils;
