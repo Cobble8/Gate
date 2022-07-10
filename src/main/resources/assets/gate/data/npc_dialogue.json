@@ -1,27 +1,30 @@
 {
    "[NPC] Castle Guard: I am guarding the lava.":{
       "delay":1400,
+      "cancel":false,
       "dialogue":[
          "§6{name} §fI'm not so sure about that...",
          "§6Castle Guard: §fI am guarding the lava.",
-         "§c☠ Castle Guard §7tried to swim in lava.",
+         "{!}§c☠ Castle Guard §7tried to swim in lava.",
          "§6{name} §fI was right."
       ]
    },
    "[NPC] Castle Guard: I, Murdohr, son of Murdohr the Third, Commander of the Phoenix Forge, and Warden of the Holy Pickaxe, am guarding this wall.":{
       "delay":1400,
+      "cancel":false,
       "dialogue":[
-         "§6{name} §fI don't believe you...",
-         "§6Castle Guard: §fNo really! I swear!",
-         "§6{name} §fYou LIAR!",
-         "§6Castle Guard: §fNooo! I have a family!",
-         "§c☠ Castle Guard §7was killed by §6{name}§7."
+         "§6{name}§f: I don't believe you...",
+         "§6Castle Guard§f: No really! I swear!",
+         "§6{name}§f: You LIAR!",
+         "§6Castle Guard§f: Nooo! I have a family!",
+         "{!}§c☠ Castle Guard §7was killed by §6{name}§7."
       ]
    },
    "[NPC] Castle Guard: I'm guarding nothing.":{
       "delay":1400,
+      "cancel":false,
       "dialogue":[
-         "§6{name} §fWhy?",
+         "§6{name}§f: Why?",
          "§6Castle Guard§f: I don't know, I'm bored.",
          "§6Castle Guard§f: My life feels meaningless without this job.",
          "§6Castle Guard§f: It's all I know.",
@@ -32,20 +35,93 @@
    },
    "[NPC] Castle Guard: I'm guarding the whole kingdom.":{
       "delay":1400,
+      "cancel":false,
       "dialogue":[
-         "§6{name} §fAnd we're all SUPER proud of you! Right guys?",
+         "§6{name}§f: And we're all SUPER proud of you! Right guys?",
          "§bErymanthus§f: Yep.",
          "§cMinikloon§f: Mhm.",
          "§dTechnoblade§f: I'll never truly die... OH! I mean: Of course.",
-         "§6Castle Guard: §fAww, thanks guys! (That last one was a bit weird...)"
+         "§6Castle Guard§f: Aww, thanks guys! (That last one was a bit weird...)"
       ]
    },
    "[NPC] Castle Guard: I'm a guard.":{
       "delay":1400,
+      "cancel":false,
       "dialogue":[
-         "§c☠ Castle Guard §7was killed by §6twasnt §7.",
+         "{!}§c☠ Castle Guard §7was killed by §6twasnt §7.",
          "§6twasnt§f: NOT ANYMORE!",
          "§6{name}§f: Well then."
+      ]
+   },
+   "[NPC] Castle Guard: This guy isn't the sharpest hammer in the smithy!":{
+      "cancel":false,
+      "delay":1400,
+      "dialogue":[
+         "§6Cobble8§f: What's a 'smithy'?",
+         "§6Castle Guard§f: No idea.",
+         "§6{name}§f: Figures."
+      ]
+   },
+   "[NPC] Castle Guard: Last week they promoted me from guarding the exit to guarding the entrance! Still the same spot but I gladly take that promotion!":{
+      "cancel":false,
+      "delay":1400,
+      "dialogue":[
+         "§6Cobble8§f: You aren't the smartest guy, are you?",
+         "§6Castle Guard§f: *GASP* How DARE you! I am the smartest person I know!",
+         "§6{name}§f: Right...",
+         "§6{name}§f: Whats 9+10?",
+         "§6Castle Guard§f: tWeNtY oNe!"
+      ]
+   },
+   "[NPC] Castle Guard: I'm guarding the guard on the other side.":{
+      "cancel":false,
+      "delay":1400,
+      "dialogue":[
+         "§6Castle Guard§f: I'm guarding the guard on the other side.",
+         "§6{name}§f: So you're guarding the right of left guard, right?",
+         "§6Castle Guard§f: Left.",
+         "§6{name}§f: What?",
+         "§6Castle Guard§f: idk."
+      ]
+   },
+   "[NPC] Royal Resident: My neighbour is the most narcissistic guy I have ever seen.":{
+      "cancel":true,
+      "delay":1400,
+      "dialogue":[
+         "§7[1/5] §2Royal Resident: §aMy neighbour is the most narcissistic guy I have ever seen.",
+         "§7[2/5] §2Royal Resident: §aWait what happend? Why are we suddenly in WynnCraft?",
+         "§7[3/5] §2Royal Resident: §aAt least the Gavel Reborn update just came out!",
+         "b[NPC] §eRoyal Resident§f: Wait why is Cinfras so different?",
+         "§b[NPC] §eRoyal Resident§f: Oh! Looks like it fixed itself."
+      ]
+   },
+   "[NPC] Bylma: According to the legends, this bridge is very big.":{
+      "cancel":false,
+      "delay":1400,
+      "dialogue":[
+         "§6Cobble8§f: Just how wide is this here bridge?",
+         "§eBylma§f: It's pretty wide, maybe a mile!",
+         "§6{name}§f: You're exaggerating right?",
+         "§eBylma§f: Not sure... I can't move to go measure it.",
+         "§6{name}§f: I see..."
+      ]
+   },
+   "[NPC] Dirt Guy: Me like dirt.":{
+      "cancel":false,
+      "delay":1400,
+      "dialogue":[
+         "§6Cobble8§f: Oh you do huh?",
+         "§eDirt Guy§f: §cDIRT§6 DIRT§e DIRT§a DIRT§2 DIRT",
+         "§6{name}§f: Wonderful",
+         "§eDirt Guy§f: §bDIRT§3 DIRT§9 DIRT§5 DIRT§d DIRT",
+         "§6{name}§f: Ok, goodbye."
+      ]
+   },
+   "[NPC] Dalbrek: They sometimes show up nearby the Fallen Star at night, as far as I know.":{
+      "cancel":false,
+      "delay":1400,
+      "dialogue":[
+         "§eDalbrek§f: §aAt the beginning of the 7th, 14th, 21st, and 28th days of each season, the Cult of the Fallen Star can be found at §b-26 198 40§a."
       ]
    }
 }

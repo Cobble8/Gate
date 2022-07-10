@@ -6,7 +6,7 @@ import net.minecraft.text.Text;
 import java.util.regex.Pattern;
 
 public class ChatUtils {
-    public static final String PREFIX = "§6["+ Reference.MODID.toUpperCase() +"] ";
+    public static final String PREFIX = "§6["+ Reference.MODID.toUpperCase() +"]";
     private static final Pattern STRIP_COLOR_PATTERN = Pattern.compile("(?i)§[0-9A-FK-ORZ]");
 
     //region SendChatMessage
@@ -16,7 +16,7 @@ public class ChatUtils {
     }
 
     public static void sendChatMessage(String string, boolean prefix) {
-        if (prefix) string = PREFIX + string;
+        if (prefix) string = PREFIX + " " + string;
         ChatUtils.sendChatMessage(Text.of(string));
     }
 
