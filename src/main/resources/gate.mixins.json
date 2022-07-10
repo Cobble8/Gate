@@ -4,8 +4,9 @@
   "package": "mod.gate.mixin",
   "compatibilityLevel": "JAVA_17",
   "mixins": [
+    "ActionbarMixin",
     "ClientChatReceiveMixin",
-    "ActionbarMixin"
+    "FrameEventMixin"
   ],
   "injectors": {
     "defaultRequire": 1
