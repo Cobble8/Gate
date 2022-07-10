@@ -1,4 +1,4 @@
-package mod.gate.core.events.ingamehud;
+package mod.gate.core.events;
 
 import net.minecraft.client.util.math.MatrixStack;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;

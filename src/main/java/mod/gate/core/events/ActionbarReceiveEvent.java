@@ -1,4 +1,4 @@
-package mod.gate.core.events.ingamehud;
+package mod.gate.core.events;
 
 import net.minecraft.text.Text;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;

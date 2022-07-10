@@ -33,9 +33,7 @@ public class Scoreboard {
     }
 
 
-    //TODO Add event to run this command
     public static void loadScoreboard() {
-        System.out.println("triggered loadScoreboard " + System.currentTimeMillis());
         assert MinecraftClient.getInstance().world != null;
 
         Collection<ScoreboardObjective> objectives = MinecraftClient.getInstance().world.getScoreboard().getObjectives();

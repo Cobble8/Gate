@@ -2,7 +2,7 @@ package mod.gate.features;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import mod.gate.core.events.Event;
-import mod.gate.core.events.ingamehud.FrameEvent;
+import mod.gate.core.events.FrameEvent;
 import mod.gate.utils.Reference;
 import net.minecraft.client.gui.DrawableHelper;
 import net.minecraft.client.util.math.MatrixStack;

@@ -10,19 +10,11 @@ import static mod.gate.utils.FileUtils.writeJson;
 
 public class Configuration {
     public Configuration load(String path) throws IOException {
-        Configuration newConfig = readJson(Configuration.class, Reference.CONFIG_PATH + path);
-        if (!newConfig.useGlobalConfig)
-            return  readJson(Configuration.class, Reference.CONFIG_PATH + configPath);
-
-        return newConfig;
+        return readJson(Configuration.class, Reference.CONFIG_PATH + path);
     }
 
     public void save(String path) {
         //trigger when update of config file happens
-        if (!this.useGlobalConfig) {
-            writeJson(this, Reference.CONFIG_PATH + configPath);
-            return;
-        }
         writeJson(this, Reference.CONFIG_PATH + path);
     }
 
@@ -31,10 +23,6 @@ public class Configuration {
     public boolean onSkyblockOnly = true;
 
     public boolean isDebugMode = false;
-
-    public boolean useGlobalConfig = true;//if set to false will get the config from a uuid specific config file
-
-    public String configPath = Gate.GLOBAL_CONFIG_PATH;//if useGlobalConfig is off it will take the config path from here
 
 
 }
