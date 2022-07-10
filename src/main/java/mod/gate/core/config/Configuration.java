@@ -12,7 +12,7 @@ public class Configuration {
     public Configuration load(String path) throws IOException {
         Configuration newConfig = readJson(Configuration.class, Reference.CONFIG_PATH + path);
         if (!newConfig.useGlobalConfig)
-            return  readJson(Configuration.class, Reference.CONFIG_PATH + path);
+            return  readJson(Configuration.class, Reference.CONFIG_PATH + configPath);
 
         return newConfig;
     }
@@ -20,7 +20,7 @@ public class Configuration {
     public void save(String path) {
         //trigger when update of config file happens
         if (!this.useGlobalConfig) {
-            writeJson(this, Reference.CONFIG_PATH + path);
+            writeJson(this, Reference.CONFIG_PATH + configPath);
             return;
         }
         writeJson(this, Reference.CONFIG_PATH + path);
