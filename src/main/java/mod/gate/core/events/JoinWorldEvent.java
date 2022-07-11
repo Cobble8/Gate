@@ -7,7 +7,8 @@ public class JoinWorldEvent {
     public CallbackInfo info;
 
     //region packet
-    private final GameJoinS2CPacket packet;//might not be useful but including it for now
+    //might not be useful but including it for now
+    private final GameJoinS2CPacket packet;
 
     public GameJoinS2CPacket getPacket() {
         return this.packet;

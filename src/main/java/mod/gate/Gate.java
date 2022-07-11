@@ -17,8 +17,8 @@ public class Gate implements ClientModInitializer {
     public void onInitializeClient() {
         LOGGER.info(Reference.NAME+" has been initialized!");
 
-        new FeatureRegistry();
         ConfigManager.init();
+        new FeatureRegistry();
 
         ClientTickEvents.END_WORLD_TICK.register((world) -> {
             EventHandler.run(new TickEvent(world));

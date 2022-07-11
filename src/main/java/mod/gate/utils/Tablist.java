@@ -60,7 +60,7 @@ public class Tablist {
     //endregion
 
     private static void loadTablist() {
-        if (!Scoreboard.isOnSkyblock()) return;//there's a small issue here
+        if (!Scoreboard.isOnSkyblock()) return;
 
         ArrayList<String> lines = getTabData();
         Lines = lines;
