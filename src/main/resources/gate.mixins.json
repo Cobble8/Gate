@@ -3,12 +3,13 @@
   "minVersion": "0.8",
   "package": "mod.gate.core.mixin",
   "compatibilityLevel": "JAVA_17",
-  "mixins": [
+  "injectors": {
+    "defaultRequire": 1
+  },
+  "client": [
+    "JoinWorldMixin",
     "ActionbarMixin",
     "ClientChatReceiveMixin",
     "RenderEventMixin"
-  ],
-  "injectors": {
-    "defaultRequire": 1
-  }
+  ]
 }

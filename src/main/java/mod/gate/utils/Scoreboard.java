@@ -47,7 +47,7 @@ public class Scoreboard {
         onSkyblock = false;
         for (ScoreboardObjective objective : objectives) {
             if(objective.getName().equals("SBScoreboard")) {
-                onSkyblock = objective.getDisplayName().getString().equals("SKYBLOCK");
+                onSkyblock = objective.getDisplayName().getString().startsWith("SKYBLOCK");
                 break;
             }
         }

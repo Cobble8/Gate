@@ -16,7 +16,7 @@ public class ActionbarMixin {
     private static String cachedContent;
 
 
-    @Inject(at = @At("HEAD"), method = "setOverlayMessage")
+    @Inject(at = @At("HEAD"), method = "setOverlayMessage", cancellable = true)
     private void setOverlayMessageMixin(Text message, boolean tinted, CallbackInfo info) {
         if (!message.asString().equals(cachedContent)) {
             //only run if it's different than the current stored cache

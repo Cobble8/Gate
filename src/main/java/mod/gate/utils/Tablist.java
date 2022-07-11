@@ -23,6 +23,7 @@ public class Tablist {
     private static String lobby;
 
     public static String getLobby() {
+        loadTablist();
         return lobby;
     }
     public static boolean inMegaLobby() {
@@ -49,10 +50,20 @@ public class Tablist {
     }
     //endregion
 
+    //region Lines
+    private static ArrayList<String> Lines;
+
+    public static ArrayList<String> getLines() {
+        loadTablist();
+        return Lines;
+    }
+    //endregion
+
     private static void loadTablist() {
         if (!Scoreboard.isOnSkyblock()) return;
 
         ArrayList<String> lines = getTabData();
+        Lines = lines;
 
         for (String line : lines) {
             if (line.startsWith("Skills: "))

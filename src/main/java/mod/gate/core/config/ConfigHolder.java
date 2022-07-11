@@ -35,6 +35,10 @@ public class ConfigHolder {
         setConfig(this.defaultValue);
     }
 
+    public Object getDefault() {
+        return this.defaultValue;
+    }
+
     @Override
     public String toString() {
         return parent.getClass().getSimpleName() + "." + field.getName();

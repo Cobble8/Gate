@@ -100,7 +100,8 @@ public class ConfigManager {
             JsonObject configJson = new JsonObject();
 
             for (ConfigHolder config : configs) {
-                configJson.add(
+                if (FieldUtils.readField(config.getField(), config.getParent()).equals(config.getDefault()))
+                    configJson.add(
                         config.toString(),
                         gson.toJsonTree(FieldUtils.readField(config.getField(), config.getParent()))
                 );
