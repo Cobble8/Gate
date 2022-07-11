@@ -1,8 +1,7 @@
 package mod.gate.features;
 
-import mod.gate.Gate;
 import mod.gate.core.config.Config;
-import mod.gate.core.events.EndTickEvent;
+import mod.gate.core.events.TickEvent;
 import mod.gate.core.events.Event;
 import mod.gate.core.events.JoinWorldEvent;
 import mod.gate.utils.ChatUtils;
@@ -37,7 +36,7 @@ public class ForgeReminder {
                     //forgereminder.getClass().getField("slot" + i).set(forgereminder, 0L);//set that when the item is removed from forge
 
                     Style style = Style.EMPTY.withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, Text.of("Click to warp to the forge (if unlocked)")));
-                    style.withClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/warpforge"));//this doesn't work, apparently
+                    style.withClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/warpforge"));//TODO find a way to make this click event work
 
                     ChatUtils.sendChatMessage(Text.of("§l§6[Gate/ForgeReminder]§f§b Forge §3slot " + i + " is available for pickup.").getWithStyle(style).get(0));
                 }
@@ -50,12 +49,11 @@ public class ForgeReminder {
         this.hasReceivedScoreboard = false;//first scoreboard packet isn't received at that point
     }
 
-    @Event(event = EndTickEvent.class)
-    public void onEndTick(EndTickEvent event) {
+    @Event(event = TickEvent.class)
+    public void onTick(TickEvent event) {
       if (this.hasReceivedScoreboard || Tablist.getLines() == null || !this.forgereminder.enabled) return;
       this.hasReceivedScoreboard = true;
       //first tick of the scoreboard being accessible
-
       if (!Tablist.getArea().equals("dwarven_mines")) return;
 
 

@@ -9,15 +9,9 @@ public class RenderEvent {
     public float tickDelta;
     public CallbackInfo info;
 
-    public RenderEvent(MatrixStack matrix, float tickDelta, CallbackInfo ci) {
+    public RenderEvent(MatrixStack matrix, float tickDelta, CallbackInfo info) {
         this.matrix = matrix;
         this.tickDelta = tickDelta;
-        this.info = ci;
+        this.info = info;
     }
-
-    public void cancel() {
-        if (this.info.isCancellable())
-            this.info.cancel();
-    }
-
 }

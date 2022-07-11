@@ -2,7 +2,7 @@ package mod.gate;
 
 import mod.gate.core.FeatureRegistry;
 import mod.gate.core.config.ConfigManager;
-import mod.gate.core.events.EndTickEvent;
+import mod.gate.core.events.TickEvent;
 import mod.gate.core.events.EventHandler;
 import mod.gate.utils.Reference;
 import net.fabricmc.api.ClientModInitializer;
@@ -21,7 +21,7 @@ public class Gate implements ClientModInitializer {
         ConfigManager.init();
 
         ClientTickEvents.END_WORLD_TICK.register((world) -> {
-            EventHandler.run(new EndTickEvent(world));
+            EventHandler.run(new TickEvent(world));
         });
     }
 }

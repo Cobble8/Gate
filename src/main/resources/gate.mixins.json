@@ -7,7 +7,7 @@
     "defaultRequire": 1
   },
   "client": [
-    "GameJoinMixin",
+    "JoinWorldMixin",
     "ActionbarMixin",
     "ClientChatReceiveMixin",
     "RenderEventMixin"

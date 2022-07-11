@@ -18,9 +18,4 @@ public class JoinWorldEvent {
         this.info = info;
         this.packet = packet;
     }
-
-    public void cancel() {
-        if (this.info.isCancellable())
-            this.info.cancel();
-    }
 }
