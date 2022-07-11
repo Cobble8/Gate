@@ -16,7 +16,8 @@ public class RenderEvent {
     }
 
     public void cancel() {
-        this.info.cancel();
+        if (this.info.isCancellable())
+            this.info.cancel();
     }
 
 }
