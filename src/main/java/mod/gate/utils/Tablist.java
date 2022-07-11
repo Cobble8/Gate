@@ -14,6 +14,7 @@ public class Tablist {
     private static Skills lastSkill;
 
     public static Skills getLastSkill() {
+        loadTablist();
         return lastSkill;
     }
     //endregion
@@ -25,6 +26,7 @@ public class Tablist {
         return lobby;
     }
     public static boolean inMegaLobby() {
+        loadTablist();
         return lobby.contains("mega");
     }
     //endregion
@@ -33,6 +35,7 @@ public class Tablist {
     private static String profile;
 
     public static String getCurrentProfile() {
+        loadTablist();
         return profile;
     }
     //endregion
@@ -41,11 +44,11 @@ public class Tablist {
     private static String area;
 
     public static String getArea() {
+        loadTablist();
         return area;
     }
     //endregion
 
-    //TODO Add event to run this command
     private static void loadTablist() {
         if (!Scoreboard.isOnSkyblock()) return;
 

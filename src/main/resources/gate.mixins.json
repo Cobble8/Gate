@@ -6,7 +6,7 @@
   "mixins": [
     "ActionbarMixin",
     "ClientChatReceiveMixin",
-    "FrameEventMixin"
+    "RenderEventMixin"
   ],
   "injectors": {
     "defaultRequire": 1
