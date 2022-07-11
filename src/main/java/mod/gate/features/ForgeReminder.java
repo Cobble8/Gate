@@ -19,11 +19,11 @@ public class ForgeReminder {
     //endregion
 
 
-    private boolean hasReceivedScoreboard = false;
+    private boolean hasReceivedTabList = false;
 
     @Event(event = JoinWorldEvent.class)
     public void onJoinWorldEvent(JoinWorldEvent event) {
-        if (!this.hasReceivedScoreboard || !this.forgereminder.enabled) return;
+        if (!this.hasReceivedTabList || !this.forgereminder.enabled) return;
         //region check for slots
         for (int i = 1; i <= 5; i++) {
             try {
@@ -46,13 +46,13 @@ public class ForgeReminder {
         }
         //endregion
 
-        this.hasReceivedScoreboard = false;//first scoreboard packet isn't received at that point
+        this.hasReceivedTabList = false;//first scoreboard packet isn't received at that point
     }
 
     @Event(event = TickEvent.class)
     public void onTick(TickEvent event) {
-      if (this.hasReceivedScoreboard || Tablist.getLines() == null || !this.forgereminder.enabled) return;
-      this.hasReceivedScoreboard = true;
+      if (this.hasReceivedTabList || Tablist.getLines() == null || !this.forgereminder.enabled) return;
+      this.hasReceivedTabList = true;
       //first tick of the scoreboard being accessible
       if (!Tablist.getArea().equals("dwarven_mines")) return;
 
