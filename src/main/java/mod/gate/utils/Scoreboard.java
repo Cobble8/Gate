@@ -14,6 +14,7 @@ public class Scoreboard {
     private static boolean onSkyblock = false;
 
     public static boolean isOnSkyblock() {
+        loadScoreboard();
         return onSkyblock;
     }
     //endregion
@@ -22,15 +23,18 @@ public class Scoreboard {
     private static String SubArea = "";
 
     public static String getCurrentSubArea() {
+        loadScoreboard();
         return SubArea;
     }
     //endregion
 
     //region Lines
-    private static ArrayList<String> Lines = new ArrayList<>();
+    private static final ArrayList<String> Lines = new ArrayList<>();
     public static ArrayList<String> getLines() {
+        loadScoreboard();
         return Lines;
     }
+    //endregion
 
 
     public static void loadScoreboard() {
@@ -49,7 +53,8 @@ public class Scoreboard {
         }
         if (!onSkyblock) return;
         //endregion
-        Lines = new ArrayList<>();//reset lines
+
+        Lines.clear();
 
         for (Team team : teams) {
             String line = team.getPrefix().getString()+team.getSuffix().getString();
