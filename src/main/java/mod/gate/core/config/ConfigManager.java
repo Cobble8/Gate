@@ -22,10 +22,10 @@ import java.util.ArrayList;
 
 public class ConfigManager {
     //region GlobalConfig
-    private static boolean globalConfig = false;
+    private static boolean useConfig = true;
 
-    public static void setGlobalConfig(boolean enabled) {
-        globalConfig = enabled;
+    public static void setUseConfig(boolean enabled) {
+        useConfig = enabled;
     }
     //endregion
 
@@ -63,7 +63,7 @@ public class ConfigManager {
                 .setPrettyPrinting()
                 .create();
 
-        if (globalConfig) return;
+        if (!useConfig) return;
 
         CONFIG_FILE.mkdirs();
 
@@ -91,10 +91,10 @@ public class ConfigManager {
         );
     }
 
-    public static void saveConfig() {
+    public static void save() {
         try {
             // create file if necessary
-            if (globalConfig) return;
+            if (!useConfig) return;
             if (!USER_FILE.exists()) USER_FILE.createNewFile();
 
             JsonObject configJson = new JsonObject();
