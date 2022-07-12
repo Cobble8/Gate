@@ -1,12 +1,14 @@
 package mod.gate;
 
 import mod.gate.core.FeatureRegistry;
+import mod.gate.core.command.CommandRegistry;
 import mod.gate.core.config.ConfigManager;
 import mod.gate.core.events.TickEvent;
 import mod.gate.core.events.EventHandler;
 import mod.gate.utils.Reference;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
+import net.fabricmc.fabric.api.command.v1.CommandRegistrationCallback;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -23,5 +25,7 @@ public class Gate implements ClientModInitializer {
         ClientTickEvents.END_WORLD_TICK.register((world) -> {
             EventHandler.run(new TickEvent(world));
         });
+
+        CommandRegistrationCallback.EVENT.register(CommandRegistry::init);
     }
 }

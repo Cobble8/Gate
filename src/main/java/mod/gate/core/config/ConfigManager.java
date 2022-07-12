@@ -5,23 +5,17 @@ import com.google.gson.JsonObject;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
-import com.google.gson.stream.JsonReader;
 import mod.gate.utils.Reference;
 import net.minecraft.client.MinecraftClient;
 import org.apache.commons.lang3.reflect.FieldUtils;
 
-import java.io.File;
-import java.io.InputStreamReader;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.OutputStreamWriter;
-import java.io.FileOutputStream;
+import java.io.*;
 import java.lang.reflect.Field;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 
 public class ConfigManager {
-    //region GlobalConfig
+    //region useConfig
     private static boolean useConfig = true;
 
     public static void setUseConfig(boolean enabled) {
@@ -50,7 +44,7 @@ public class ConfigManager {
     public static void registerConfig(Object feature) {
         for (Field field : FieldUtils.getFieldsWithAnnotation(feature.getClass(), Config.class)) {
             try {
-                configs.add(new ConfigHolder(FieldUtils.readField(field, true), field, feature));
+                configs.add(new ConfigHolder(FieldUtils.readField(field, feature, true), field, feature));
                 loadConfig(configs.get(configs.size() - 1));
             } catch (IllegalAccessException e) {
                 e.printStackTrace();
@@ -71,8 +65,8 @@ public class ConfigManager {
 
         if (USER_FILE.exists()) {
             try {
-                InputStreamReader reader = new InputStreamReader(new FileInputStream(USER_FILE), StandardCharsets.UTF_8);
-                JsonElement fileElement = JsonParser.parseReader(new JsonReader(reader));
+                FileReader reader = new FileReader(USER_FILE);
+                JsonElement fileElement = JsonParser.parseReader(gson.newJsonReader(reader));
                 reader.close();
                 if (!fileElement.isJsonObject()) return;
 
@@ -100,11 +94,11 @@ public class ConfigManager {
             JsonObject configJson = new JsonObject();
 
             for (ConfigHolder config : configs) {
-                if (FieldUtils.readField(config.getField(), config.getParent()).equals(config.getDefault()))
+                if (!FieldUtils.readField(config.getField(), config.getParent()).equals(config.getDefault()))
                     configJson.add(
-                        config.toString(),
-                        gson.toJsonTree(FieldUtils.readField(config.getField(), config.getParent()))
-                );
+                            config.toString(),
+                            gson.toJsonTree(FieldUtils.readField(config.getField(), config.getParent()))
+                    );
             }
 
             // write json to file
