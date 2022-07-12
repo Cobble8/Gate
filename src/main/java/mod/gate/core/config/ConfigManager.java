@@ -9,7 +9,11 @@ import mod.gate.utils.Reference;
 import net.minecraft.client.MinecraftClient;
 import org.apache.commons.lang3.reflect.FieldUtils;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.io.FileOutputStream;
 import java.lang.reflect.Field;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
