@@ -1,12 +1,12 @@
 package mod.gate.utils;
 
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.network.PlayerListEntry;
+import mod.gate.core.events.Event;
+import mod.gate.core.events.EventHandler;
+import mod.gate.core.events.TablistEvent;
+import net.minecraft.network.packet.s2c.play.PlayerListS2CPacket;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Locale;
-import java.util.Objects;
 
 public class Tablist {
 
@@ -14,7 +14,6 @@ public class Tablist {
     private static Skills lastSkill;
 
     public static Skills getLastSkill() {
-        loadTablist();
         return lastSkill;
     }
     //endregion
@@ -23,11 +22,9 @@ public class Tablist {
     private static String lobby;
 
     public static String getLobby() {
-        loadTablist();
         return lobby;
     }
     public static boolean inMegaLobby() {
-        loadTablist();
         return lobby.contains("mega");
     }
     //endregion
@@ -36,7 +33,6 @@ public class Tablist {
     private static String profile;
 
     public static String getCurrentProfile() {
-        loadTablist();
         return profile;
     }
     //endregion
@@ -45,7 +41,6 @@ public class Tablist {
     private static String area;
 
     public static String getArea() {
-        loadTablist();
         return area;
     }
     //endregion
@@ -54,44 +49,63 @@ public class Tablist {
     private static ArrayList<String> Lines;
 
     public static ArrayList<String> getLines() {
-        loadTablist();
         return Lines;
     }
     //endregion
 
-    private static void loadTablist() {
+    @Event(event = TablistEvent.class)
+    private static void loadTablist(TablistEvent event) {
         if (!Scoreboard.isOnSkyblock()) return;
 
-        ArrayList<String> lines = getTabData();
-        Lines = lines;
+        for (PlayerListS2CPacket.Entry entry : event.packet.getEntries()) {
+            if (entry.getDisplayName() == null) continue;
 
-        for (String line : lines) {
-            if (line.startsWith("Skills: "))
+            String line = entry.getDisplayName().asString().trim();
+
+            if (!entry.getProfile().getName().contains("!"))
+                EventHandler.run(new TablistUpdateEvent(TablistUpdateType.PLAYER, line));
+
+
+            if (line.startsWith("Skills: ")) {
                 lastSkill = Skills.getByName(line.substring(8).substring(0, line.substring(8).indexOf(" ")));
+                EventHandler.run(new TablistUpdateEvent(TablistUpdateType.LAST_SKILL, lastSkill.getName()));
+            }
 
-            else if (line.startsWith("Server: "))
+            else if (line.startsWith("Server: ")) {
                 lobby = line.substring(8);
+                EventHandler.run(new TablistUpdateEvent(TablistUpdateType.LOBBY, lobby));
+            }
 
-            else if (line.startsWith("Profile: "))
-                profile = line.substring(9).toLowerCase(Locale.ROOT).replace(" ","_");
+            else if (line.startsWith("Profile: ")) {
+                profile = line.substring(9).toLowerCase(Locale.ROOT).replace(" ", "_");
+                EventHandler.run(new TablistUpdateEvent(TablistUpdateType.PROFILE, profile));
+            }
 
-            else if (line.startsWith("Area: "))
-                area = line.substring(6).toLowerCase(Locale.ROOT).replace(" ","_");
+            else if (line.startsWith("Area: ")) {
+                area = line.substring(6).toLowerCase(Locale.ROOT).replace(" ", "_");
+                EventHandler.run(new TablistUpdateEvent(TablistUpdateType.AREA, area));
+            }
+
+            else EventHandler.run(new TablistUpdateEvent(TablistUpdateType.OTHER, line));
         }
     }
 
-    private static ArrayList<String> getTabData() {
-        ArrayList<String> lines = new ArrayList<>();
-        try {
-            assert MinecraftClient.getInstance().player != null;
-            Collection<PlayerListEntry> playerList = MinecraftClient.getInstance().player.networkHandler.getPlayerList();
-            for (PlayerListEntry player : playerList) {
-                try {
-                    if (player.getProfile().getName().contains("!")) //This check is there because since all the tab stuff is fake players, hypixel puts a '!' in their fake usernames because normally you can't.
-                        lines.add(Objects.requireNonNull(player.getDisplayName()).getString().trim());
-                } catch(Exception ignored) {}
-            }
-        } catch (Exception ignored) {}
-        return lines;
+    public static class TablistUpdateEvent {
+        public TablistUpdateType type;
+        public String line;
+
+        public TablistUpdateEvent(TablistUpdateType type, String line) {
+            this.type = type;
+            this.line = line;
+        }
+    }
+
+    public enum TablistUpdateType {
+        LAST_SKILL,
+        LOBBY,
+        PROFILE,
+        AREA,
+        PLAYER,
+        OTHER
     }
 }

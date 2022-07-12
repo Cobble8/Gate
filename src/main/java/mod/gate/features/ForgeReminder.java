@@ -1,145 +1,117 @@
 package mod.gate.features;
 
 import mod.gate.core.config.Config;
-import mod.gate.core.events.TickEvent;
 import mod.gate.core.events.Event;
-import mod.gate.core.events.JoinWorldEvent;
 import mod.gate.utils.ChatUtils;
 import mod.gate.utils.Tablist;
 import net.minecraft.text.ClickEvent;
 import net.minecraft.text.HoverEvent;
 import net.minecraft.text.Style;
 import net.minecraft.text.Text;
-import org.apache.commons.lang3.reflect.FieldUtils;
+
+import java.util.ArrayList;
 
 public class ForgeReminder {
     //region CONFIG
     @Config(description = "the configuration for the forge reminder")
-    public ForgeConfig forgereminder = new ForgeConfig();
+    public ForgeConfig forgeReminder = new ForgeConfig();
     //endregion
 
+    @Event(event = Tablist.TablistUpdateEvent.class)
+    public void onTablistUpdate(Tablist.TablistUpdateEvent event) {
+        if (event.type != Tablist.TablistUpdateType.OTHER) return;
 
-    private boolean hasReceivedTabList = false;
-
-    @Event(event = JoinWorldEvent.class)
-    public void onJoinWorldEvent(JoinWorldEvent event) {
-        if (!this.hasReceivedTabList || !this.forgereminder.enabled) return;
-        //region check for slots
-        for (int i = 1; i <= 5; i++) {
-            try {
-                long slotTime = FieldUtils.getField(ForgeConfig.class,"slot" + i).getLong(forgereminder);
-
-                //if (FieldUtils.getField(ForgeConfig.class, "unlocked" + i).getBoolean(forgereminder)) ChatUtils.sendChatMessage("slot" + i + " is currently at timestamp: " + slotTime);
-                if (FieldUtils.getField(ForgeConfig.class, "unlocked" + i).getBoolean(forgereminder)
-                        && System.currentTimeMillis() >= slotTime && slotTime != 0L)
-                {
-                    //forgereminder.getClass().getField("slot" + i).set(forgereminder, 0L);//set that when the item is removed from forge
-
-                    Style style = Style.EMPTY.withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, Text.of("Click to warp to the forge (if unlocked)")));
-                    style.withClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/warpforge"));//TODO find a way to make this click event work
-
-                    ChatUtils.sendChatMessage(Text.of("§l§6[Gate/ForgeReminder]§f§b Forge §3slot " + i + " is available for pickup.").getWithStyle(style).get(0));
-                }
-            }catch (Exception e) {
-                e.printStackTrace();
-            }
+        // Finding if the 5th slot is unlocked, it isn't shown on Tablist
+        if (event.line.equals("Forges (+1 more)") && !forgeReminder.slots.get(5).unlocked) {
+            forgeReminder.slots.get(5).unlocked = true;
         }
-        //endregion
 
-        this.hasReceivedTabList = false;//first scoreboard packet isn't received at that point
+        for (ForgeSlot slot : forgeReminder.slots) {
+            if (slot.slotNumber != 5) {
+                processLine(slot, event.line);
+            };
+
+            if (!slot.unlocked && System.currentTimeMillis() < slot.time && slot.time == 0L && !slot.notify) continue;
+            slot.notify = false;
+
+            Style style = Style.EMPTY
+                    .withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, Text.of("Click to warp to the forge [if unlocked]")))
+                    //TODO find a way to make this click event work
+                    .withClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/warpforge"));
+
+            ChatUtils.sendChatMessage(Text.of(ChatUtils.PREFIX + "§8 | [§bForgeReminder§8] §f> " + "Forge §3slot " + slot.slotNumber + " §fis available for pickup.").getWithStyle(style).get(0));
+        }
     }
 
-    @Event(event = TickEvent.class)
-    public void onTick(TickEvent event) {
-      if (this.hasReceivedTabList || Tablist.getLines() == null || !this.forgereminder.enabled) return;
-      this.hasReceivedTabList = true;
-      //first tick of the scoreboard being accessible
-      if (!Tablist.getArea().equals("dwarven_mines")) return;
+    private void processLine(ForgeSlot slot, String line) {
+        if (!line.startsWith(slot.slotNumber + ")")) return;
 
+        if (line.endsWith("EMPTY")) {
+            if (slot.time != 0L) slot.time = 0L;
 
-      for (String line: Tablist.getLines()) {
-          if (line.equals("Forges (+1 more)") && !forgereminder.unlocked5) {
-              forgereminder.unlocked5 = true;//5th one is unlocked
-          }
+            slot.unlocked = true;
+            slot.notify = true;
+        } else if (line.endsWith("Ready!")) {
+            slot.time = System.currentTimeMillis();
 
-        for (int i = 1; i<=4; i++) {//forge 5 isn't accessible through tablist
-            try {
-                if (line.startsWith(i+")")) {
-                    if (line.endsWith("EMPTY")) {
-                        if (FieldUtils.getField(ForgeConfig.class, "slot" + i).getLong(forgereminder) != 0L) {
-                            forgereminder.getClass().getField("slot" + i).set(forgereminder, 0L);//clear date
-                        }
+            slot.unlocked = true;
+        } else {
+            String DateToParse = line.substring(3);
+            long total = 0L;
 
-                        if (!FieldUtils.getField(ForgeConfig.class, "unlocked" + i).getBoolean(forgereminder)) {
-                            forgereminder.getClass().getField("unlocked" + i).set(forgereminder, true);//set to unlocked
-                        }
-
-                    } else if (line.endsWith("Ready!")) {
-                        FieldUtils.getField(ForgeConfig.class, "slot"+i).set(forgereminder, System.currentTimeMillis());
-                        if (!FieldUtils.getField(ForgeConfig.class, "unlocked" + i).getBoolean(forgereminder)) {
-                            forgereminder.getClass().getField("unlocked" + i).set(forgereminder, true);//set to unlocked
-                        }
-                    } else {
-                        String DatetoParse = line.substring(3);
-
-                        long total = 0L;
-
-                        for (String time: DatetoParse.split(" ")) {
-                            try {
-                                if (time.contains("s")) {
-                                    time = time.replace("s", "");
-                                    int s = Integer.parseInt(time);
-                                    total+= s * 1000L;
-                                } else if (time.contains("m")) {
-                                    time = time.replace("m", "");
-                                    int m = Integer.parseInt(time);
-                                    total += m * 60000L;
-                                } else if (time.contains("h")) {
-                                    time = time.replace("h", "");
-                                    int h = Integer.parseInt(time);
-                                    total += h * 3600000L;
-                                } else if (time.contains("d")) {
-                                    time = time.replace("d", "");
-                                    int d = Integer.parseInt(time);
-                                    total += d * 86400000L;
-                                }
-                            }catch (Exception ignored) {}
-                            //System.out.println("parsed time: " + total);
-                            total += System.currentTimeMillis();
-                            //might be useful to do a check to see if result is accurate
-
-                            //System.out.println("when it will end: " + (total + System.currentTimeMillis()));
-                            FieldUtils.getField(ForgeConfig.class, "slot"+i).set(forgereminder, total);
-                        }
-
-                        if (!FieldUtils.getField(ForgeConfig.class, "unlocked" + i).getBoolean(forgereminder)) {
-                            forgereminder.getClass().getField("unlocked" + i).set(forgereminder, true);//set to unlocked
-                        }
-                    }
+            for (String time : DateToParse.split(" ")) {
+                if (time.contains("s")) {
+                    time = time.replace("s", "");
+                    int s = Integer.parseInt(time);
+                    total+= s * 1000L;
+                } else if (time.contains("m")) {
+                    time = time.replace("m", "");
+                    int m = Integer.parseInt(time);
+                    total += m * 60000L;
+                } else if (time.contains("h")) {
+                    time = time.replace("h", "");
+                    int h = Integer.parseInt(time);
+                    total += h * 3600000L;
+                } else if (time.contains("d")) {
+                    time = time.replace("d", "");
+                    int d = Integer.parseInt(time);
+                    total += d * 86400000L;
                 }
-            }catch (Exception e) {
-                e.printStackTrace();
             }
+
+            total += System.currentTimeMillis();
+
+            slot.time = total;
+
+            slot.unlocked = true;
+            slot.notify = true;
         }
-      }
     }
 
     public static class ForgeConfig {
         public boolean enabled = true;
+        public ArrayList<ForgeSlot> slots = new ArrayList<>();
 
-        public long slot1 = 0L;
-        public boolean unlocked1 = false;
+        public ForgeConfig() {
+            slots.add(new ForgeSlot(1));
+            slots.add(new ForgeSlot(2));
+            slots.add(new ForgeSlot(3));
+            slots.add(new ForgeSlot(4));
+            slots.add(new ForgeSlot(5));
+        }
+    }
 
-        public long slot2 = 0L;
-        public boolean unlocked2 = false;
+    public static class ForgeSlot {
+        public long time;
+        public boolean unlocked;
+        public int slotNumber;
+        public boolean notify;
 
-        public long slot3 = 0L;
-        public boolean unlocked3 = false;
-
-        public long slot4 = 0L;
-        public boolean unlocked4 = false;
-
-        public long slot5 = 0L;//inaccessible through tab list
-        public boolean unlocked5 = false;//inaccessible through tab list
+        public ForgeSlot(int slotNumber) {
+            this.slotNumber = slotNumber;
+            this.time = 0L;
+            this.unlocked = false;
+            this.notify = true;
+        }
     }
 }
