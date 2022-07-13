@@ -7,9 +7,7 @@ import mod.gate.core.events.TickEvent;
 import mod.gate.core.events.EventHandler;
 import mod.gate.utils.Reference;
 import net.fabricmc.api.ClientModInitializer;
-import net.fabricmc.fabric.api.client.command.v1.ClientCommandManager;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
-import net.fabricmc.fabric.api.command.v1.CommandRegistrationCallback;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

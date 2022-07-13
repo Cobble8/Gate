@@ -112,10 +112,11 @@ public class ConfigManager {
                                 gson.toJsonTree(FieldUtils.readField(config.getField(), config.getParent()))
                         );
                 } else {
+                    //checking for each fields individually in a non-primitive-wrapper class is really annoying and I don't want to deal with it
                     configJson.add(
                             config.toString(),
                             gson.toJsonTree(FieldUtils.readField(config.getField(), config.getParent()))
-                    );//checking for each fields individually in a non-primitive-wrapper class is really annoying and I don't want to deal with it
+                    );
                 }
             }
 
