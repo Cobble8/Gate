@@ -1,17 +1,18 @@
 package mod.gate.core.command;
 
-import com.mojang.brigadier.CommandDispatcher;
+import mod.gate.features.commands.ChangeSetting;
 import mod.gate.features.commands.GateSave;
 import mod.gate.core.config.ConfigManager;
-import net.minecraft.server.command.ServerCommandSource;
+import net.fabricmc.fabric.api.client.command.v1.ClientCommandManager;
 
 public class CommandRegistry {
-    public static void register(Object command, CommandDispatcher<ServerCommandSource> dispatcher, boolean dedicated) {
+    public static void register(Object command) {
         if (ConfigManager.inDebugMode()) System.out.println("registering command: " + ((Command) command).getName());
-        ((Command) command).register(dispatcher, dedicated);
+        ClientCommandManager.DISPATCHER.register(((Command) command).register());
     }
 
-    public static void init(CommandDispatcher<ServerCommandSource> dispatcher, boolean dedicated) {
-        register(new GateSave(), dispatcher, dedicated);
+    public static void init() {
+        register(new GateSave());
+        register(new ChangeSetting());
     }
 }

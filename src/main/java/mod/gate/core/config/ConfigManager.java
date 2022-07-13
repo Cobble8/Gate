@@ -7,6 +7,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 import mod.gate.utils.Reference;
 import net.minecraft.client.MinecraftClient;
+import org.apache.commons.lang3.ClassUtils;
 import org.apache.commons.lang3.reflect.FieldUtils;
 
 import java.io.File;
@@ -32,6 +33,12 @@ public class ConfigManager {
 
     public static boolean inDebugMode() {
         return debugMode;
+    }
+    //endregion
+
+    //region getConfig
+    public static ArrayList<ConfigHolder> getConfigs() {
+        return ConfigManager.configs;
     }
     //endregion
 
@@ -98,11 +105,18 @@ public class ConfigManager {
             JsonObject configJson = new JsonObject();
 
             for (ConfigHolder config : configs) {
-                if (!FieldUtils.readField(config.getField(), config.getParent()).equals(config.getDefault()))
+                if (ClassUtils.isPrimitiveOrWrapper(config.getParent().getClass())) {
+                    if (!FieldUtils.readField(config.getField(), config.getParent()).equals(config.getDefault()))
+                        configJson.add(
+                                config.toString(),
+                                gson.toJsonTree(FieldUtils.readField(config.getField(), config.getParent()))
+                        );
+                } else {
                     configJson.add(
                             config.toString(),
                             gson.toJsonTree(FieldUtils.readField(config.getField(), config.getParent()))
-                    );
+                    );//checking for each fields individually in a non-primitive-wrapper class is really annoying and I don't want to deal with it
+                }
             }
 
             // write json to file
