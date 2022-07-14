@@ -11,6 +11,7 @@ import net.fabricmc.fabric.api.client.command.v1.ClientCommandManager;
 import net.fabricmc.fabric.api.client.command.v1.FabricClientCommandSource;
 
 import java.lang.reflect.Field;
+import java.text.ParseException;
 import java.util.Objects;
 
 public class ChangeSetting implements Command {
@@ -23,23 +24,48 @@ public class ChangeSetting implements Command {
 
             if (config.getField().getType().getName() == config.getField().getType().getSimpleName()) {
                 //primitive type
-                literalArgumentBuilder.then(ClientCommandManager.literal("changesetting").then(
-                        ClientCommandManager.literal(config.getField().getName())
-                                .then(ClientCommandManager.argument(
-                                                "value", StringArgumentType.greedyString())
-                                        .executes(this::run))
-                ));
+                if (config.getField().getType().getName() == "boolean") {
+                    literalArgumentBuilder.then(ClientCommandManager.literal("changesetting").then(
+                            ClientCommandManager.literal(config.getField().getName())
+                                    .then(ClientCommandManager.literal(
+                                            "true")
+                                            .executes(this::run))
+                                    .then(ClientCommandManager.literal(
+                                            "false")
+                                            .executes(this::run))
+                    ));
+                } else {
+                    literalArgumentBuilder.then(ClientCommandManager.literal("changesetting").then(
+                            ClientCommandManager.literal(config.getField().getName())
+                                    .then(ClientCommandManager.argument(
+                                                    "value", StringArgumentType.greedyString())
+                                            .executes(this::run))
+                    ));
+                }
 
             } else {
                 //Object type
                 for (Field field: config.getField().getType().getFields()) {
-                    literalArgumentBuilder.then(ClientCommandManager.literal("changesetting").then(
-                            ClientCommandManager.literal(config.getField().getName())
-                                    .then(ClientCommandManager.literal(field.getName())
-                                    .then(ClientCommandManager.argument(
-                                                    "value", StringArgumentType.greedyString())
-                                            .executes(this::run)))
-                    ));
+                    if (field.getType().getName() == "boolean") {
+                        literalArgumentBuilder.then(ClientCommandManager.literal("changesetting").then(
+                                ClientCommandManager.literal(config.getField().getName())
+                                        .then(ClientCommandManager.literal(field.getName())
+                                                .then(ClientCommandManager.literal(
+                                                                "true")
+                                                        .executes(this::run))
+                                                .then(ClientCommandManager.literal(
+                                                                "false")
+                                                        .executes(this::run)))
+                        ));
+                    } else {
+                        literalArgumentBuilder.then(ClientCommandManager.literal("changesetting").then(
+                                ClientCommandManager.literal(config.getField().getName())
+                                        .then(ClientCommandManager.literal(field.getName())
+                                                .then(ClientCommandManager.argument(
+                                                                "value", StringArgumentType.greedyString())
+                                                        .executes(this::run)))
+                        ));
+                    }
                 }
             }
         }
@@ -62,7 +88,7 @@ public class ChangeSetting implements Command {
 
                     for (Field field : config.getField().getType().getFields()) {
                         if (!field.getName().equals(args[3])) continue;
-                        field.set(config.getField().get(config.getParent()), parsePrimitive(args[4], field.getType().getName()));
+                        config.set(field.getName(), parsePrimitive(args[4], field.getType().getName()));
 
                         ChatUtils.sendChatMessage("succcessfully set " + config.getField().getName() + "." + field.getName() + " to " + args[4]);
                     }
@@ -91,7 +117,7 @@ public class ChangeSetting implements Command {
                         bool = true;
                     if (Objects.equals(string, "false"))
                         bool = false;
-                    if (Boolean.TRUE.equals(bool == null)) throw new Exception();
+                    if (Boolean.TRUE.equals(bool == null)) throw new ParseException(string + " is not a boolean", 0);
 
                     return bool;
                 }
@@ -118,11 +144,11 @@ public class ChangeSetting implements Command {
                 }
                 default -> {
                     ChatUtils.sendChatMessage("§c" + type + " type is not a primitive type or cannot be parsed");
-                    throw new Exception();
+                    throw new Exception("type could not be parsed");
                 }
             }
 
-        } catch (Exception e) {
+        } catch (NumberFormatException | ParseException e) {
             ChatUtils.sendChatMessage("§cexpected type §6" + type);
             throw new Exception();
         }

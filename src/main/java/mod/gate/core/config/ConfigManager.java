@@ -114,7 +114,8 @@ public class ConfigManager {
                 } else {
                     boolean isDefault = true;
                     for (Field field: config.getDefault().getClass().getDeclaredFields()) {
-                        if (FieldUtils.readField(field,config.getDefault(), true ) != FieldUtils.readField(field, config.getField().get(config.getParent()), true)) {
+
+                        if (FieldUtils.readField(field, config.getDefault(), true) != config.get(field.getName())) {
                             isDefault = false;
                             break;
                         }
