@@ -4,6 +4,7 @@ import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
 import mod.gate.core.command.Command;
+import mod.gate.core.command.CommandBuilder;
 import mod.gate.core.config.ConfigHolder;
 import mod.gate.core.config.ConfigManager;
 import mod.gate.utils.ChatUtils;
@@ -18,62 +19,34 @@ public class ChangeSetting implements Command {
 
     @Override
     public LiteralArgumentBuilder<FabricClientCommandSource> register() {
-        LiteralArgumentBuilder<FabricClientCommandSource> literalArgumentBuilder = ClientCommandManager.literal("gate");
+        CommandBuilder commandBuilder = new CommandBuilder(ClientCommandManager.literal("gate"), this);
 
         for (ConfigHolder config : ConfigManager.getConfigs()) {
-
-            if (config.getField().getType().getName() == config.getField().getType().getSimpleName()) {
+            if (config.getField().getType().isPrimitive()) {
                 //primitive type
                 if (config.getField().getType().getName() == "boolean") {
-                    literalArgumentBuilder.then(ClientCommandManager.literal("changesetting").then(
-                            ClientCommandManager.literal(config.getField().getName())
-                                    .then(ClientCommandManager.literal(
-                                            "true")
-                                            .executes(this::run))
-                                    .then(ClientCommandManager.literal(
-                                            "false")
-                                            .executes(this::run))
-                    ));
-                } else {
-                    literalArgumentBuilder.then(ClientCommandManager.literal("changesetting").then(
-                            ClientCommandManager.literal(config.getField().getName())
-                                    .then(ClientCommandManager.argument(
-                                                    "value", StringArgumentType.greedyString())
-                                            .executes(this::run))
-                    ));
+                    commandBuilder.addBooleanArgument("changesetting " + config.getField().getName());
+                }
+                else {
+                    commandBuilder.addArgument("changesetting " + config.getField().getName(), "value", StringArgumentType.greedyString());
                 }
 
             } else {
                 //Object type
                 for (Field field: config.getField().getType().getFields()) {
                     if (field.getType().getName() == "boolean") {
-                        literalArgumentBuilder.then(ClientCommandManager.literal("changesetting").then(
-                                ClientCommandManager.literal(config.getField().getName())
-                                        .then(ClientCommandManager.literal(field.getName())
-                                                .then(ClientCommandManager.literal(
-                                                                "true")
-                                                        .executes(this::run))
-                                                .then(ClientCommandManager.literal(
-                                                                "false")
-                                                        .executes(this::run)))
-                        ));
+                        commandBuilder.addBooleanArgument("changesetting " + config.getField().getName() + " " + field.getName());
                     } else {
-                        literalArgumentBuilder.then(ClientCommandManager.literal("changesetting").then(
-                                ClientCommandManager.literal(config.getField().getName())
-                                        .then(ClientCommandManager.literal(field.getName())
-                                                .then(ClientCommandManager.argument(
-                                                                "value", StringArgumentType.greedyString())
-                                                        .executes(this::run)))
-                        ));
+                        commandBuilder.addArgument("changesetting " + config.getField().getName() + " " + field.getName(), "value", StringArgumentType.greedyString());
                     }
                 }
             }
         }
 
-        return (literalArgumentBuilder);
+        return (commandBuilder.getBuilder());
     }
 
-    public int run(CommandContext<FabricClientCommandSource> context) {
+    public int execute(CommandContext<FabricClientCommandSource> context) {
         //0 and 1 are commands (gate changesetting) 2 is setting name and 3 is either path or value and 4 is null or value
         String[] args = context.getInput().split(" ");
 
