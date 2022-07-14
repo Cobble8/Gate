@@ -105,18 +105,26 @@ public class ConfigManager {
             JsonObject configJson = new JsonObject();
 
             for (ConfigHolder config : configs) {
-                if (ClassUtils.isPrimitiveOrWrapper(config.getParent().getClass())) {
+                if (ClassUtils.isPrimitiveOrWrapper(config.getField().get(config.getParent()).getClass())) {
                     if (!FieldUtils.readField(config.getField(), config.getParent()).equals(config.getDefault()))
                         configJson.add(
                                 config.toString(),
                                 gson.toJsonTree(FieldUtils.readField(config.getField(), config.getParent()))
                         );
                 } else {
-                    //checking for each fields individually in a non-primitive-wrapper class is really annoying and I don't want to deal with it
-                    configJson.add(
-                            config.toString(),
-                            gson.toJsonTree(FieldUtils.readField(config.getField(), config.getParent()))
-                    );
+                    boolean isDefault = true;
+                    for (Field field: config.getDefault().getClass().getDeclaredFields()) {
+                        if (FieldUtils.readField(field,config.getDefault(), true ) != FieldUtils.readField(field, config.getField().get(config.getParent()), true)) {
+                            isDefault = false;
+                            break;
+                        }
+                    }
+
+                    if (!isDefault)
+                        configJson.add(
+                                config.toString(),
+                                gson.toJsonTree(FieldUtils.readField(config.getField(), config.getParent()))
+                        );
                 }
             }
 

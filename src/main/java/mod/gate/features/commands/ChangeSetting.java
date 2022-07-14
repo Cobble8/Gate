@@ -64,8 +64,6 @@ public class ChangeSetting implements Command {
                         if (!field.getName().equals(args[3])) continue;
                         field.set(config.getField().get(config.getParent()), parsePrimitive(args[4], field.getType().getName()));
 
-                        config.setConfig(config.getField().get(config.getParent()));
-
                         ChatUtils.sendChatMessage("succcessfully set " + config.getField().getName() + "." + field.getName() + " to " + args[4]);
                     }
 
