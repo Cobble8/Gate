@@ -33,10 +33,12 @@ public class ForgeReminder {
                 if (FieldUtils.getField(ForgeConfig.class, "unlocked" + i).getBoolean(forgereminder)
                         && System.currentTimeMillis() >= slotTime && slotTime != 0L)
                 {
-                    //forgereminder.getClass().getField("slot" + i).set(forgereminder, 0L);//set that when the item is removed from forge
+                    //set that when the item is removed from forge
+                    //forgereminder.getClass().getField("slot" + i).set(forgereminder, 0L);
 
                     Style style = Style.EMPTY.withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, Text.of("Click to warp to the forge (if unlocked)")));
-                    style.withClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/warpforge"));//TODO find a way to make this click event work
+                    //TODO find a way to make this click event work
+                    style.withClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "warpforge"));
 
                     ChatUtils.sendChatMessage(Text.of("§l§6[Gate/ForgeReminder]§f§b Forge §3slot " + i + " is available for pickup.").getWithStyle(style).get(0));
                 }

@@ -4,6 +4,8 @@ import org.apache.commons.lang3.reflect.FieldUtils;
 
 import java.lang.reflect.Field;
 
+import static mod.gate.utils.ObjectUtils.cloneObject;
+
 public class ConfigHolder {
     private final Field field;
     private final Object parent;
@@ -12,7 +14,8 @@ public class ConfigHolder {
     public ConfigHolder(Object value, Field field, Object parent) {
         this.field = field;
         this.parent = parent;
-        this.defaultValue = value;
+        Object clone = cloneObject(value);
+        this.defaultValue = clone == null ? value : clone ;
     }
 
     public Field getField() {
@@ -37,6 +40,23 @@ public class ConfigHolder {
 
     public Object getDefault() {
         return this.defaultValue;
+    }
+
+    public Object get(String fieldName) {
+        try {
+            return FieldUtils.readField(field.getType().getField(fieldName), field.get(parent), true);
+        }catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public void set(String fieldName, Object value) {
+        try {
+            FieldUtils.writeField(field.getType().getField(fieldName), field.get(parent), value, true);
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

@@ -7,6 +7,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 import mod.gate.utils.Reference;
 import net.minecraft.client.MinecraftClient;
+import org.apache.commons.lang3.ClassUtils;
 import org.apache.commons.lang3.reflect.FieldUtils;
 
 import java.io.File;
@@ -32,6 +33,12 @@ public class ConfigManager {
 
     public static boolean inDebugMode() {
         return debugMode;
+    }
+    //endregion
+
+    //region getConfig
+    public static ArrayList<ConfigHolder> getConfigs() {
+        return ConfigManager.configs;
     }
     //endregion
 
@@ -98,11 +105,28 @@ public class ConfigManager {
             JsonObject configJson = new JsonObject();
 
             for (ConfigHolder config : configs) {
-                if (!FieldUtils.readField(config.getField(), config.getParent()).equals(config.getDefault()))
-                    configJson.add(
-                            config.toString(),
-                            gson.toJsonTree(FieldUtils.readField(config.getField(), config.getParent()))
-                    );
+                if (ClassUtils.isPrimitiveOrWrapper(config.getField().get(config.getParent()).getClass())) {
+                    if (!FieldUtils.readField(config.getField(), config.getParent()).equals(config.getDefault()))
+                        configJson.add(
+                                config.toString(),
+                                gson.toJsonTree(FieldUtils.readField(config.getField(), config.getParent()))
+                        );
+                } else {
+                    boolean isDefault = true;
+                    for (Field field: config.getDefault().getClass().getDeclaredFields()) {
+
+                        if (FieldUtils.readField(field, config.getDefault(), true) != config.get(field.getName())) {
+                            isDefault = false;
+                            break;
+                        }
+                    }
+
+                    if (!isDefault)
+                        configJson.add(
+                                config.toString(),
+                                gson.toJsonTree(FieldUtils.readField(config.getField(), config.getParent()))
+                        );
+                }
             }
 
             // write json to file
